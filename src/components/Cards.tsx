@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import "@/app/styles/card.css"
+import { useState, useEffect } from 'react';
 
 interface propsType {
     title: string,
@@ -10,6 +11,16 @@ interface propsType {
 }
 
 const Cards: React.FC<propsType> = ({title,desc,img,tags}) => {
+
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+      // Check if window.innerWidth is smaller than 640
+      if (window.innerWidth >= 640) {
+          setIsSmallScreen(true);
+      }
+  }, []);
+  
   return (
     <div className={`card ${window.innerWidth >= 640? 'card-sm' : ''}`} data-aos="zoom-out-up">
       <div>
