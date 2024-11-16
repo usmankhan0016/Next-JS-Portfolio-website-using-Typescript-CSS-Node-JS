@@ -12,9 +12,13 @@ interface propsType {
 
 const Cards: React.FC<propsType> = ({title,desc,img,tags}) => {
 
+  const [isClient, setIsClient] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
+      // Indicate that we are now on the client side
+      setIsClient(true);
+
       // Function to update `isSmallScreen` based on window width
       const handleResize = () => {
           setIsSmallScreen(window.innerWidth < 640);
@@ -27,6 +31,11 @@ const Cards: React.FC<propsType> = ({title,desc,img,tags}) => {
       // Clean up the event listener when the component is unmounted
       return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  if (!isClient) {
+      // While SSR is happening, render nothing or a placeholder
+      return null;
+  }9
   
   return (
     <div className={`card ${window.innerWidth >= 640? 'card-sm' : ''}`} data-aos="zoom-out-up">
