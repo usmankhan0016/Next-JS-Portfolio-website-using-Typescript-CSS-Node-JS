@@ -15,10 +15,17 @@ const Cards: React.FC<propsType> = ({title,desc,img,tags}) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
-      // Check if window.innerWidth is smaller than 640
-      if (window.innerWidth >= 640) {
-          setIsSmallScreen(true);
-      }
+      // Function to update `isSmallScreen` based on window width
+      const handleResize = () => {
+          setIsSmallScreen(window.innerWidth < 640);
+      };
+
+      // Call the function immediately and set up an event listener
+      handleResize();
+      window.addEventListener('resize', handleResize);
+
+      // Clean up the event listener when the component is unmounted
+      return () => window.removeEventListener('resize', handleResize);
   }, []);
   
   return (
